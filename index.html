@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071b19">
+  <meta name="description" content="A little letter under the moonlight, made for my bunny.">
+  <title>To My Last Love ♡</title>
+  <style>
+    :root {
+      --night: #061715;
+      --night2: #0c2925;
+      --cream: #f6ecd7;
+      --muted: #b8c9b6;
+      --gold: #d8c797;
+      --green: #21483c;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--cream);
+      background:
+        radial-gradient(ellipse at 50% 8%, rgba(42, 83, 72, .46), transparent 43%),
+        linear-gradient(180deg, #061715 0%, #0b2421 52%, #071a18 100%);
+      font-family: Georgia, "Times New Roman", serif;
+      overflow-x: hidden;
+    }
+    #stars { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: .8; }
+    .moon {
+      position: absolute; top: 42px; right: clamp(28px, 10vw, 140px);
+      width: 64px; height: 64px; border-radius: 50%;
+      background: #f8e8bd; box-shadow: 0 0 28px rgba(248,232,189,.22);
+    }
+    .moon::after {
+      content: ""; position: absolute; width: 59px; height: 59px;
+      border-radius: 50%; background: #09201d; top: -9px; left: 17px;
+    }
+    .scene { position: relative; z-index: 1; min-height: 100svh; display: flex; flex-direction: column; align-items: center; padding: 90px 20px 28px; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .28em; font-size: .72rem; color: var(--gold); text-align: center; }
+    h1 { margin: 20px 0 10px; font-size: clamp(2.7rem, 9vw, 5.7rem); line-height: 1.04; font-weight: 400; text-align: center; letter-spacing: -.04em; }
+    .heartline { color: var(--gold); font-size: 1.5rem; letter-spacing: .7em; margin: 8px 0 28px 0.7em; }
+    .intro { max-width: 520px; text-align: center; line-height: 1.75; color: #d4dfd0; font-size: 1.02rem; margin: 0 0 32px; }
+    .envelope-button { border: 0; padding: 0; background: transparent; cursor: pointer; width: min(360px, 88vw); color: inherit; transition: transform .25s ease; filter: drop-shadow(0 18px 22px rgba(0,0,0,.26)); }
+    .envelope-button:hover { transform: translateY(-5px); }
+    .envelope-button:focus-visible, .open-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+    .envelope { position: relative; display: block; height: 220px; background: #e8d8b9; border-radius: 5px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(92,68,39,.25); }
+    .envelope::before { content:""; position:absolute; inset:0; background: linear-gradient(145deg, rgba(255,255,255,.3), transparent 44%), repeating-linear-gradient(0deg, transparent 0 5px, rgba(100,80,51,.025) 6px 7px); }
+    .flap { position: absolute; inset: 0 0 auto; height: 64%; background: #f3e6ce; clip-path: polygon(0 0,100% 0,50% 100%); transform-origin: top; transition: transform .8s cubic-bezier(.2,.7,.2,1); z-index: 3; }
+    .envelope::after { content:""; position:absolute; inset:0; background: linear-gradient(34deg, #d2bd98 0 49.8%, transparent 50%), linear-gradient(-34deg, #dfcba8 0 49.8%, transparent 50%); opacity:.95; }
+    .seal { position: absolute; z-index: 4; left: 50%; top: 54%; transform: translate(-50%,-50%); width: 54px; height: 54px; border-radius: 50%; display:grid; place-items:center; color:#f4e7ce; background:#24483b; border:2px solid #617b61; font-size:1.6rem; box-shadow:0 3px 8px #55452f55; transition: opacity .4s ease; }
+    .tap-label { margin-top: 22px; display: inline-flex; align-items: center; gap: 12px; border: 1px solid #b7c5a0; border-radius: 99px; padding: 14px 24px; color: var(--cream); letter-spacing: .06em; font-size: .96rem; }
+    .tap-label span { color: var(--gold); font-size: 1.2rem; }
+    .hint { color: #a9bcae; font-size: .83rem; margin-top: 14px; text-align: center; }
+    .letter-wrap { width: min(720px, 100%); display: none; margin: 36px auto 0; animation: rise .9s ease both; }
+    .letter-wrap.visible { display: block; }
+    .letter { background: rgba(248,239,218,.97); color: #243b31; border: 1px solid #d5c49e; border-radius: 5px; padding: clamp(24px, 6vw, 54px); box-shadow: 0 20px 70px rgba(0,0,0,.3); position: relative; }
+    .letter::before { content:""; position:absolute; inset:10px; border:1px solid rgba(108,129,91,.35); pointer-events:none; }
+    .letter-top { text-align:center; color:#6d8468; font-size:.75rem; letter-spacing:.23em; text-transform:uppercase; margin-bottom:24px; }
+    .letter h2 { text-align:center; font-size:clamp(1.8rem, 6vw, 2.7rem); font-weight:400; margin:0 0 26px; color:#28493b; }
+    .letter p { position:relative; font-size:clamp(1.02rem, 2.8vw, 1.14rem); line-height:1.95; margin:0; white-space:pre-line; }
+    .signoff { text-align:right; color:#6c8468; font-style:italic; font-size:1.15rem; margin-top:26px; position:relative; }
+    .close-note { display:block; margin:22px auto 0; background:transparent; border:1px solid #a6b89d; color:var(--cream); border-radius:99px; padding:11px 18px; font:inherit; cursor:pointer; }
+    footer { position:relative; z-index:1; text-align:center; padding:44px 18px 30px; color:#b5c4a9; font-size:.92rem; letter-spacing:.06em; }
+    footer .little-moon { display:block; color:var(--gold); font-size:1.3rem; margin-top:13px; }
+    .river { position:absolute; z-index:0; left:0; right:0; bottom:0; height:190px; pointer-events:none; opacity:.48; background: linear-gradient(180deg, transparent, rgba(9,35,31,.5)), repeating-linear-gradient(177deg, transparent 0 12px, rgba(184,201,182,.12) 13px 14px, transparent 15px 26px); mask-image:linear-gradient(transparent, #000 35%); }
+    @keyframes rise { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width: 480px) {
+      .scene { padding-top: 92px; }
+      .moon { width: 48px; height: 48px; top: 26px; right: 28px; }
+      .moon::after { width: 45px; height: 45px; left: 13px; top: -7px; }
+      .envelope { height: 190px; }
+      .intro { font-size: .96rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; } }
+  </style>
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <main class="scene">
+    <div class="moon" aria-hidden="true"></div>
+    <div class="eyebrow">A little letter under the moonlight</div>
+    <h1>To my last love</h1>
+    <div class="heartline" aria-hidden="true">— ♡ —</div>
+    <p class="intro">Some feelings are too precious to send as an ordinary text.<br>This one is for you, my bunny. 💚</p>
+
+    <button class="envelope-button" id="openLetter" aria-label="Open your love letter" aria-expanded="false" aria-controls="letterWrap">
+      <span class="envelope" aria-hidden="true">
+        <span class="flap" id="flap"></span>
+        <span class="seal" id="seal">♡</span>
+      </span>
+      <span class="tap-label">Open your letter <span>→</span></span>
+    </button>
+    <div class="hint" id="hint">Tap the envelope when you're ready ♡</div>
+
+    <section class="letter-wrap" id="letterWrap" aria-live="polite">
+      <article class="letter">
+        <div class="letter-top">Written with all my heart</div>
+        <h2>For my bunny ♡</h2>
+        <p>Bunny, you may not be my first love, but I want you to be my last. I’ve been through pain in the past, and I know love isn’t always easy, but I don’t want my past to stop me from loving you wholeheartedly. I don’t know what the future holds for us, and I can’t promise that everything will always be perfect. But right now, you’re the person I want to experience life with. I want to do so many things with you, watch the moon and rivers together, share my random thoughts, make you laugh, make you blush, and be there for you on both your good and bad days. I want you to feel safe, comfortable, understood, and loved when you’re with me. I don’t just want to know your beautiful side; I want to understand the parts of you that you might be afraid to show, too. I don’t care about being better than anyone else. I just want to be someone who loves you genuinely and makes you happy in ways you’ll always remember. Even if I can’t predict our future, I don’t want to waste the beautiful present we have together. If you’re going to be my last love, I want you to know that I’ll never regret choosing to love you. I’ll cherish the time we share, the little moments, and every memory we create. And if you ever look back on us one day, I hope you smile and remember that someone once loved you with all his heart. ❤️</p>
+        <div class="signoff">Always, with sincerity ♡</div>
+      </article>
+      <button class="close-note" id="closeLetter">Close letter ↑</button>
+    </section>
+    <div class="river" aria-hidden="true"></div>
+  </main>
+  <footer>
+    For my bunny ♡
+    <span class="little-moon">☾</span>
+  </footer>
+  <script>
+    const button = document.getElementById('openLetter');
+    const wrap = document.getElementById('letterWrap');
+    const flap = document.getElementById('flap');
+    const seal = document.getElementById('seal');
+    const hint = document.getElementById('hint');
+    const closeButton = document.getElementById('closeLetter');
+    let opened = false;
+
+    button.addEventListener('click', () => {
+      if (opened) {
+        wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      opened = true;
+      button.setAttribute('aria-expanded', 'true');
+      flap.style.transform = 'rotateX(180deg)';
+      seal.style.opacity = '0';
+      hint.textContent = 'A little piece of my heart, just for you ♡';
+      window.setTimeout(() => {
+        wrap.classList.add('visible');
+        wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        button.querySelector('.tap-label').innerHTML = 'Your letter is open <span>♡</span>';
+      }, 500);
+    });
+    closeButton.addEventListener('click', () => {
+      wrap.classList.remove('visible');
+      opened = false;
+      button.setAttribute('aria-expanded', 'false');
+      flap.style.transform = '';
+      seal.style.opacity = '1';
+      hint.textContent = 'Tap the envelope when you’re ready ♡';
+      button.querySelector('.tap-label').innerHTML = 'Open your letter <span>→</span>';
+      button.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    // Small, subtle stars; no external libraries or music.
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function makeStars() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      stars = Array.from({ length: Math.min(110, Math.floor(window.innerWidth / 4)) }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 1.25 + .25,
+        a: Math.random() * .55 + .2,
+        phase: Math.random() * Math.PI * 2
+      }));
+      drawStars();
+    }
+    function drawStars() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (const s of stars) {
+        const twinkle = .72 + Math.sin(Date.now() / 1200 + s.phase) * .25;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(244, 229, 184, ${s.a * twinkle})`;
+        ctx.fill();
+      }
+      window.requestAnimationFrame(drawStars);
+    }
+    makeStars();
+    window.addEventListener('resize', makeStars);
+  </script>
+</body>
+</html>
